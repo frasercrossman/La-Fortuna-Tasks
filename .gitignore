@@ -1,0 +1,2 @@
+# Prevent binary files from being version controlled
+_build/
