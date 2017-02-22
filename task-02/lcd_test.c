@@ -2,15 +2,20 @@
 
 #include <avr/io.h>
 #include "lcd.h"
+#include "printf.h"
 
 void init(void);
 
 void main(void) {
     init();
-    display_string("Hello Southampton!\n");
-    display_string("Hello UK!\n");
     display_color(GOLD, BLACK);
-    display_string("Hello World!\n");
+    display_color(BLACK, GOLD);
+
+    printf("Hello there %s\n", "Fraser");
+    printf("This is a hex value: %x\n", 6574);
+    printf("This is a int value: %d\n", 7482);
+    printf("This is a int value: %d\n", 137482);
+    printf("This is a int value: %d\n", 1374824);
 }
 
 
