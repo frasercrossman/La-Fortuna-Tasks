@@ -51,9 +51,9 @@ int8_t tasksNum = -1;
 
 const double tick_ms = 400.0;        /* Real time between ticks in ms */
 const uint32_t tasksPeriodGCD = 25;  /* Timer tick rate */
-const uint32_t period1 = 29;
-const uint32_t period2 = 77;
-const uint32_t period3 = 162;
+const uint32_t period1 = 25;
+const uint32_t period2 = 75;
+const uint32_t period3 = 150;
 
 int TickFct_1(int state);
 int TickFct_2(int state);
@@ -67,9 +67,15 @@ uint8_t currentTask = 0;                   /* Index of highest priority task in 
 
 unsigned schedule_time = 0;
 ISR(TIMER1_COMPA_vect) {
-   uint8_t i;
+    uint8_t i;
 
-   for (i=0; i <= tasksNum; ++i) { /* Heart of scheduler code */
+    for (i=0; i <= tasksNum; ++i) { /* Heart of scheduler code */
+			if ( runningTasks[currentTask] == idleTask ) {
+				LED_ON;
+			} else {
+				LED_OFF;
+			}
+
       if (  (tasks[i].elapsedTime >= tasks[i].period) /* Task ready */
           && (runningTasks[currentTask] > i) /* Task priority > current task priority */
           && (!tasks[i].running)             /* Task not already running (no self-preemption) */
@@ -95,7 +101,7 @@ ISR(TIMER1_COMPA_vect) {
    }
 
    display_color(SEA_GREEN, BLACK);
-   printf("-");
+   printf("-\n");
 
 
 }
@@ -154,28 +160,28 @@ int main(void) {
 
 int TickFct_1(int state) {
 	display_color(CRIMSON, BLACK);
-    printf( "[T1<");
+    printf( "[T1<\n");
     _delay_ms(20);
     display_color(CRIMSON, BLACK);
-    printf( ">T1]");
+    printf( ">T1]\n");
     return ++state;
 }
 
 int TickFct_2(int state) {
 	display_color(GOLD, BLACK);
-    printf( "[T2<");
+    printf( "[T2<\n");
     _delay_ms(600);
     display_color(GOLD, BLACK);
-    printf( ">T2]");
+    printf( ">T2]\n");
     return ++state;
 }
 
 int TickFct_3(int state) {
 	display_color(DARK_CYAN, BLACK);
-    printf( "[T3<");
+    printf( "[T3<\n");
     _delay_ms(2000);
     display_color(DARK_CYAN, BLACK);
-    printf( ">T3]");
+    printf( ">T3]\n");
     return ++state;
 }
 
